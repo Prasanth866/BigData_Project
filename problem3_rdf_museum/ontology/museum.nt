@@ -1,0 +1,68 @@
+<http://example.org/museum#Person> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://example.org/museum#Person> <http://www.w3.org/2000/01/rdf-schema#label> "Person"@en .
+<http://example.org/museum#Person> <http://www.w3.org/2000/01/rdf-schema#comment> "A human being."@en .
+<http://example.org/museum#Artist> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://example.org/museum#Artist> <http://www.w3.org/2000/01/rdf-schema#subClassOf> <http://example.org/museum#Person> .
+<http://example.org/museum#Artist> <http://www.w3.org/2000/01/rdf-schema#label> "Artist"@en .
+<http://example.org/museum#Artist> <http://www.w3.org/2000/01/rdf-schema#comment> "A person who creates works of art."@en .
+<http://example.org/museum#Artwork> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://example.org/museum#Artwork> <http://www.w3.org/2000/01/rdf-schema#label> "Artwork"@en .
+<http://example.org/museum#Artwork> <http://www.w3.org/2000/01/rdf-schema#comment> "A physical or conceptual creation of artistic value."@en .
+<http://example.org/museum#Gallery> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://example.org/museum#Gallery> <http://www.w3.org/2000/01/rdf-schema#label> "Museum Gallery"@en .
+<http://example.org/museum#Gallery> <http://www.w3.org/2000/01/rdf-schema#comment> "A room or building devoted to the exhibition of works of art."@en .
+<http://example.org/museum#ArtPeriod> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2000/01/rdf-schema#Class> .
+<http://example.org/museum#ArtPeriod> <http://www.w3.org/2000/01/rdf-schema#label> "Art Period"@en .
+<http://example.org/museum#ArtPeriod> <http://www.w3.org/2000/01/rdf-schema#comment> "A distinct historical era characterized by a particular artistic style or philosophy."@en .
+<http://example.org/museum#createdBy> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://example.org/museum#createdBy> <http://www.w3.org/2000/01/rdf-schema#domain> <http://example.org/museum#Artwork> .
+<http://example.org/museum#createdBy> <http://www.w3.org/2000/01/rdf-schema#range> <http://example.org/museum#Artist> .
+<http://example.org/museum#createdBy> <http://www.w3.org/2000/01/rdf-schema#label> "created by"@en .
+<http://example.org/museum#createdBy> <http://www.w3.org/2000/01/rdf-schema#comment> "Relates an artwork to the artist who produced or authored it."@en .
+<http://example.org/museum#displayedIn> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://example.org/museum#displayedIn> <http://www.w3.org/2000/01/rdf-schema#domain> <http://example.org/museum#Artwork> .
+<http://example.org/museum#displayedIn> <http://www.w3.org/2000/01/rdf-schema#range> <http://example.org/museum#Gallery> .
+<http://example.org/museum#displayedIn> <http://www.w3.org/2000/01/rdf-schema#label> "displayed in"@en .
+<http://example.org/museum#displayedIn> <http://www.w3.org/2000/01/rdf-schema#comment> "Identifies the museum gallery where an artwork is physically exhibited."@en .
+<http://example.org/museum#belongsToPeriod> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://example.org/museum#belongsToPeriod> <http://www.w3.org/2000/01/rdf-schema#domain> <http://example.org/museum#Artwork> .
+<http://example.org/museum#belongsToPeriod> <http://www.w3.org/2000/01/rdf-schema#range> <http://example.org/museum#ArtPeriod> .
+<http://example.org/museum#belongsToPeriod> <http://www.w3.org/2000/01/rdf-schema#label> "belongs to period"@en .
+<http://example.org/museum#belongsToPeriod> <http://www.w3.org/2000/01/rdf-schema#comment> "Designates the historical art movement or period to which an artwork belongs."@en .
+<http://example.org/museum#creates> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/1999/02/22-rdf-syntax-ns#Property> .
+<http://example.org/museum#creates> <http://www.w3.org/2000/01/rdf-schema#domain> <http://example.org/museum#Artist> .
+<http://example.org/museum#creates> <http://www.w3.org/2000/01/rdf-schema#range> <http://example.org/museum#Artwork> .
+<http://example.org/museum#creates> <http://www.w3.org/2000/01/rdf-schema#label> "creates"@en .
+<http://example.org/museum#creates> <http://www.w3.org/2000/01/rdf-schema#comment> "Inverse relation linking an artist to the artworks they have created."@en .
+<http://example.org/museum#Leonardo> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Artist> .
+<http://example.org/museum#Leonardo> <http://www.w3.org/2000/01/rdf-schema#label> "Leonardo da Vinci"@en .
+<http://example.org/museum#Leonardo> <http://www.w3.org/2000/01/rdf-schema#comment> "Italian polymath of the High Renaissance."@en .
+<http://example.org/museum#Leonardo> <http://example.org/museum#creates> <http://example.org/museum#MonaLisa> .
+<http://example.org/museum#VanGogh> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Artist> .
+<http://example.org/museum#VanGogh> <http://www.w3.org/2000/01/rdf-schema#label> "Vincent van Gogh"@en .
+<http://example.org/museum#VanGogh> <http://www.w3.org/2000/01/rdf-schema#comment> "Dutch Post-Impressionist painter."@en .
+<http://example.org/museum#VanGogh> <http://example.org/museum#creates> <http://example.org/museum#StarryNight> .
+<http://example.org/museum#Renaissance> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#ArtPeriod> .
+<http://example.org/museum#Renaissance> <http://www.w3.org/2000/01/rdf-schema#label> "Renaissance"@en .
+<http://example.org/museum#Renaissance> <http://www.w3.org/2000/01/rdf-schema#comment> "European cultural movement marking transition to modernity."@en .
+<http://example.org/museum#PostImpressionism> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#ArtPeriod> .
+<http://example.org/museum#PostImpressionism> <http://www.w3.org/2000/01/rdf-schema#label> "Post-Impressionism"@en .
+<http://example.org/museum#PostImpressionism> <http://www.w3.org/2000/01/rdf-schema#comment> "French art movement developed between 1886 and 1905."@en .
+<http://example.org/museum#Gallery1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Gallery> .
+<http://example.org/museum#Gallery1> <http://www.w3.org/2000/01/rdf-schema#label> "Gallery 1"@en .
+<http://example.org/museum#Gallery1> <http://www.w3.org/2000/01/rdf-schema#comment> "Museum exhibition hall 1 dedicated to classical and Renaissance masterworks."@en .
+<http://example.org/museum#Gallery2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Gallery> .
+<http://example.org/museum#Gallery2> <http://www.w3.org/2000/01/rdf-schema#label> "Gallery 2"@en .
+<http://example.org/museum#Gallery2> <http://www.w3.org/2000/01/rdf-schema#comment> "Museum exhibition hall 2 dedicated to modern and post-impressionist masterworks."@en .
+<http://example.org/museum#MonaLisa> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Artwork> .
+<http://example.org/museum#MonaLisa> <http://www.w3.org/2000/01/rdf-schema#label> "Mona Lisa"@en .
+<http://example.org/museum#MonaLisa> <http://www.w3.org/2000/01/rdf-schema#comment> "Half-length portrait painting by Leonardo da Vinci."@en .
+<http://example.org/museum#MonaLisa> <http://example.org/museum#createdBy> <http://example.org/museum#Leonardo> .
+<http://example.org/museum#MonaLisa> <http://example.org/museum#displayedIn> <http://example.org/museum#Gallery1> .
+<http://example.org/museum#MonaLisa> <http://example.org/museum#belongsToPeriod> <http://example.org/museum#Renaissance> .
+<http://example.org/museum#StarryNight> <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://example.org/museum#Artwork> .
+<http://example.org/museum#StarryNight> <http://www.w3.org/2000/01/rdf-schema#label> "The Starry Night"@en .
+<http://example.org/museum#StarryNight> <http://www.w3.org/2000/01/rdf-schema#comment> "Oil-on-canvas painting by Vincent van Gogh."@en .
+<http://example.org/museum#StarryNight> <http://example.org/museum#createdBy> <http://example.org/museum#VanGogh> .
+<http://example.org/museum#StarryNight> <http://example.org/museum#displayedIn> <http://example.org/museum#Gallery2> .
+<http://example.org/museum#StarryNight> <http://example.org/museum#belongsToPeriod> <http://example.org/museum#PostImpressionism> .

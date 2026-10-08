@@ -1,0 +1,105 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix mus:  <http://example.org/museum#> .
+
+#################################################################
+# Classes (Questions 1, 2, 7)
+#################################################################
+
+mus:Person a rdfs:Class ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "A human being."@en .
+
+mus:Artist a rdfs:Class ;
+    rdfs:subClassOf mus:Person ;
+    rdfs:label "Artist"@en ;
+    rdfs:comment "A person who creates works of art."@en .
+
+mus:Artwork a rdfs:Class ;
+    rdfs:label "Artwork"@en ;
+    rdfs:comment "A physical or conceptual creation of artistic value."@en .
+
+mus:Gallery a rdfs:Class ;
+    rdfs:label "Museum Gallery"@en ;
+    rdfs:comment "A room or building devoted to the exhibition of works of art."@en .
+
+mus:ArtPeriod a rdfs:Class ;
+    rdfs:label "Art Period"@en ;
+    rdfs:comment "A distinct historical era characterized by a particular artistic style or philosophy."@en .
+
+#################################################################
+# Properties (Questions 3, 4, 7)
+#################################################################
+
+mus:createdBy a rdf:Property ;
+    rdfs:domain mus:Artwork ;
+    rdfs:range mus:Artist ;
+    rdfs:label "created by"@en ;
+    rdfs:comment "Relates an artwork to the artist who produced or authored it."@en .
+
+mus:displayedIn a rdf:Property ;
+    rdfs:domain mus:Artwork ;
+    rdfs:range mus:Gallery ;
+    rdfs:label "displayed in"@en ;
+    rdfs:comment "Identifies the museum gallery where an artwork is physically exhibited."@en .
+
+mus:belongsToPeriod a rdf:Property ;
+    rdfs:domain mus:Artwork ;
+    rdfs:range mus:ArtPeriod ;
+    rdfs:label "belongs to period"@en ;
+    rdfs:comment "Designates the historical art movement or period to which an artwork belongs."@en .
+
+mus:creates a rdf:Property ;
+    rdfs:domain mus:Artist ;
+    rdfs:range mus:Artwork ;
+    rdfs:label "creates"@en ;
+    rdfs:comment "Inverse relation linking an artist to the artworks they have created."@en .
+
+#################################################################
+# Individuals / Instances (Questions 5, 6, 7)
+#################################################################
+
+# Artists
+mus:Leonardo a mus:Artist ;
+    rdfs:label "Leonardo da Vinci"@en ;
+    rdfs:comment "Italian polymath of the High Renaissance active as a painter, draughtsman, and engineer."@en ;
+    mus:creates mus:MonaLisa .
+
+mus:VanGogh a mus:Artist ;
+    rdfs:label "Vincent van Gogh"@en ;
+    rdfs:comment "Dutch Post-Impressionist painter known for bold colours and dramatic brushwork."@en ;
+    mus:creates mus:StarryNight .
+
+# Art Periods
+mus:Renaissance a mus:ArtPeriod ;
+    rdfs:label "Renaissance"@en ;
+    rdfs:comment "A period in European history marking the transition from the Middle Ages to modernity (14th-17th centuries)."@en .
+
+mus:PostImpressionism a mus:ArtPeriod ;
+    rdfs:label "Post-Impressionism"@en ;
+    rdfs:comment "A predominantly French art movement that developed roughly between 1886 and 1905."@en .
+
+# Galleries
+mus:Gallery1 a mus:Gallery ;
+    rdfs:label "Gallery 1"@en ;
+    rdfs:comment "Museum exhibition hall 1 dedicated to classical and Renaissance masterworks."@en .
+
+mus:Gallery2 a mus:Gallery ;
+    rdfs:label "Gallery 2"@en ;
+    rdfs:comment "Museum exhibition hall 2 dedicated to modern and post-impressionist masterworks."@en .
+
+# Artworks
+mus:MonaLisa a mus:Artwork ;
+    rdfs:label "Mona Lisa"@en ;
+    rdfs:comment "Half-length portrait painting by Leonardo da Vinci."@en ;
+    mus:createdBy mus:Leonardo ;
+    mus:displayedIn mus:Gallery1 ;
+    mus:belongsToPeriod mus:Renaissance .
+
+mus:StarryNight a mus:Artwork ;
+    rdfs:label "The Starry Night"@en ;
+    rdfs:comment "Oil-on-canvas painting by Vincent van Gogh depicting the view from his asylum room in Saint-Rémy-de-Provence."@en ;
+    mus:createdBy mus:VanGogh ;
+    mus:displayedIn mus:Gallery2 ;
+    mus:belongsToPeriod mus:PostImpressionism .

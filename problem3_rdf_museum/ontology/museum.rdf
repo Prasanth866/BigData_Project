@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xmlns:mus="http://example.org/museum#">
+
+  <!-- ================= CLASSES ================= -->
+  <rdfs:Class rdf:about="http://example.org/museum#Person">
+    <rdfs:label xml:lang="en">Person</rdfs:label>
+    <rdfs:comment xml:lang="en">A human being.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://example.org/museum#Artist">
+    <rdfs:subClassOf rdf:resource="http://example.org/museum#Person"/>
+    <rdfs:label xml:lang="en">Artist</rdfs:label>
+    <rdfs:comment xml:lang="en">A person who creates works of art.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://example.org/museum#Artwork">
+    <rdfs:label xml:lang="en">Artwork</rdfs:label>
+    <rdfs:comment xml:lang="en">A physical or conceptual creation of artistic value.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://example.org/museum#Gallery">
+    <rdfs:label xml:lang="en">Museum Gallery</rdfs:label>
+    <rdfs:comment xml:lang="en">A room or building devoted to the exhibition of works of art.</rdfs:comment>
+  </rdfs:Class>
+
+  <rdfs:Class rdf:about="http://example.org/museum#ArtPeriod">
+    <rdfs:label xml:lang="en">Art Period</rdfs:label>
+    <rdfs:comment xml:lang="en">A distinct historical era characterized by a particular artistic style or philosophy.</rdfs:comment>
+  </rdfs:Class>
+
+  <!-- ================= PROPERTIES ================= -->
+  <rdf:Property rdf:about="http://example.org/museum#createdBy">
+    <rdfs:domain rdf:resource="http://example.org/museum#Artwork"/>
+    <rdfs:range rdf:resource="http://example.org/museum#Artist"/>
+    <rdfs:label xml:lang="en">created by</rdfs:label>
+    <rdfs:comment xml:lang="en">Relates an artwork to the artist who produced or authored it.</rdfs:comment>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://example.org/museum#displayedIn">
+    <rdfs:domain rdf:resource="http://example.org/museum#Artwork"/>
+    <rdfs:range rdf:resource="http://example.org/museum#Gallery"/>
+    <rdfs:label xml:lang="en">displayed in</rdfs:label>
+    <rdfs:comment xml:lang="en">Identifies the museum gallery where an artwork is physically exhibited.</rdfs:comment>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://example.org/museum#belongsToPeriod">
+    <rdfs:domain rdf:resource="http://example.org/museum#Artwork"/>
+    <rdfs:range rdf:resource="http://example.org/museum#ArtPeriod"/>
+    <rdfs:label xml:lang="en">belongs to period</rdfs:label>
+    <rdfs:comment xml:lang="en">Designates the historical art movement or period to which an artwork belongs.</rdfs:comment>
+  </rdf:Property>
+
+  <rdf:Property rdf:about="http://example.org/museum#creates">
+    <rdfs:domain rdf:resource="http://example.org/museum#Artist"/>
+    <rdfs:range rdf:resource="http://example.org/museum#Artwork"/>
+    <rdfs:label xml:lang="en">creates</rdfs:label>
+    <rdfs:comment xml:lang="en">Inverse relation linking an artist to the artworks they have created.</rdfs:comment>
+  </rdf:Property>
+
+  <!-- ================= INDIVIDUALS ================= -->
+  <!-- Artists -->
+  <mus:Artist rdf:about="http://example.org/museum#Leonardo">
+    <rdfs:label xml:lang="en">Leonardo da Vinci</rdfs:label>
+    <rdfs:comment xml:lang="en">Italian polymath of the High Renaissance.</rdfs:comment>
+    <mus:creates rdf:resource="http://example.org/museum#MonaLisa"/>
+  </mus:Artist>
+
+  <mus:Artist rdf:about="http://example.org/museum#VanGogh">
+    <rdfs:label xml:lang="en">Vincent van Gogh</rdfs:label>
+    <rdfs:comment xml:lang="en">Dutch Post-Impressionist painter.</rdfs:comment>
+    <mus:creates rdf:resource="http://example.org/museum#StarryNight"/>
+  </mus:Artist>
+
+  <!-- Art Periods -->
+  <mus:ArtPeriod rdf:about="http://example.org/museum#Renaissance">
+    <rdfs:label xml:lang="en">Renaissance</rdfs:label>
+    <rdfs:comment xml:lang="en">European cultural movement marking transition to modernity.</rdfs:comment>
+  </mus:ArtPeriod>
+
+  <mus:ArtPeriod rdf:about="http://example.org/museum#PostImpressionism">
+    <rdfs:label xml:lang="en">Post-Impressionism</rdfs:label>
+    <rdfs:comment xml:lang="en">French art movement developed between 1886 and 1905.</rdfs:comment>
+  </mus:ArtPeriod>
+
+  <!-- Galleries -->
+  <mus:Gallery rdf:about="http://example.org/museum#Gallery1">
+    <rdfs:label xml:lang="en">Gallery 1</rdfs:label>
+    <rdfs:comment xml:lang="en">Museum exhibition hall 1 dedicated to classical and Renaissance masterworks.</rdfs:comment>
+  </mus:Gallery>
+
+  <mus:Gallery rdf:about="http://example.org/museum#Gallery2">
+    <rdfs:label xml:lang="en">Gallery 2</rdfs:label>
+    <rdfs:comment xml:lang="en">Museum exhibition hall 2 dedicated to modern and post-impressionist masterworks.</rdfs:comment>
+  </mus:Gallery>
+
+  <!-- Artworks -->
+  <mus:Artwork rdf:about="http://example.org/museum#MonaLisa">
+    <rdfs:label xml:lang="en">Mona Lisa</rdfs:label>
+    <rdfs:comment xml:lang="en">Half-length portrait painting by Leonardo da Vinci.</rdfs:comment>
+    <mus:createdBy rdf:resource="http://example.org/museum#Leonardo"/>
+    <mus:displayedIn rdf:resource="http://example.org/museum#Gallery1"/>
+    <mus:belongsToPeriod rdf:resource="http://example.org/museum#Renaissance"/>
+  </mus:Artwork>
+
+  <mus:Artwork rdf:about="http://example.org/museum#StarryNight">
+    <rdfs:label xml:lang="en">The Starry Night</rdfs:label>
+    <rdfs:comment xml:lang="en">Oil-on-canvas painting by Vincent van Gogh.</rdfs:comment>
+    <mus:createdBy rdf:resource="http://example.org/museum#VanGogh"/>
+    <mus:displayedIn rdf:resource="http://example.org/museum#Gallery2"/>
+    <mus:belongsToPeriod rdf:resource="http://example.org/museum#PostImpressionism"/>
+  </mus:Artwork>
+
+</rdf:RDF>

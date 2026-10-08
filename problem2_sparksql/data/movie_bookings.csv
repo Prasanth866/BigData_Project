@@ -1,0 +1,16 @@
+Booking_ID,Customer_ID,Movie,Theatre,Tickets,Amount
+B101,C101,MovieA,Theatre1,2,400
+B102,C102,MovieB,Theatre2,4,800
+B103,C103,MovieA,Theatre1,3,600
+B104,C104,MovieC,Theatre3,1,250
+B105,C105,MovieB,Theatre2,5,1000
+B101,C101,MovieA,Theatre1,2,400
+B106,C106,MovieD,Theatre4,6,1500
+B107,C107,MovieC,Theatre3,3,750
+B108,C108,MovieA,Theatre2,4,900
+B102,C102,MovieB,Theatre2,4,800
+B109,C109,MovieD,Theatre4,2,500
+B110,C110,MovieB,Theatre1,1,200
+B103,C103,MovieA,Theatre1,3,600
+B111,C111,MovieC,Theatre2,4,1000
+B112,C112,MovieD,Theatre3,5,1250

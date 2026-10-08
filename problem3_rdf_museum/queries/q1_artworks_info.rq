@@ -1,0 +1,16 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mus:  <http://example.org/museum#>
+
+SELECT ?artworkLabel ?artistLabel ?galleryLabel ?periodLabel
+WHERE {
+    ?artwork a mus:Artwork ;
+             rdfs:label ?artworkLabel ;
+             mus:createdBy ?artist ;
+             mus:displayedIn ?gallery ;
+             mus:belongsToPeriod ?period .
+    
+    ?artist rdfs:label ?artistLabel .
+    ?gallery rdfs:label ?galleryLabel .
+    ?period rdfs:label ?periodLabel .
+}
+ORDER BY ?artworkLabel

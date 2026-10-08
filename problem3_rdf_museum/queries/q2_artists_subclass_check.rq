@@ -1,0 +1,12 @@
+PREFIX rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX mus:  <http://example.org/museum#>
+
+# Query to demonstrate RDFS Subclass reasoning:
+# Artists are subclasses of Person, so all Artists are also Persons.
+SELECT ?artist ?type
+WHERE {
+    ?artist a ?type .
+    FILTER (?type IN (mus:Artist, mus:Person))
+}
+ORDER BY ?artist ?type

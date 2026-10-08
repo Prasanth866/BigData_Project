@@ -1,0 +1,68 @@
+# ==========================================
+# Environments & Virtual Environments
+# ==========================================
+.venv/
+venv/
+ENV/
+env/
+.env
+
+# ==========================================
+# Python Bytecode & Cache
+# ==========================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.pytest_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+*.egg-info/
+dist/
+eggs/
+.eggs/
+
+# ==========================================
+# Java Build Artifacts
+# ==========================================
+*.class
+*.jar
+*.war
+*.ear
+build/
+bin/
+target/
+problem1_mapreduce/build/
+problem1_mapreduce/dist/
+
+# ==========================================
+# Hadoop & Spark Temporary Files / Outputs
+# ==========================================
+metastore_db/
+derby.log
+spark-warehouse/
+**/output/
+*.log
+_temporary/
+
+# ==========================================
+# OS & System Artifacts
+# ==========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# ==========================================
+# IDE & Editor Configurations
+# ==========================================
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+.antigravity/
+.gemini/

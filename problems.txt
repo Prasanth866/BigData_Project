@@ -1,0 +1,46 @@
+Problem #1:
+Most visited website
+Given Website and User ID information, identify the website visited by the maximum number of
+users using Map Reduce Programme.
+
+Problem #2:
+SparkSQL - Movie Ticket Booking
+A movie booking system receives:
+Booking_ID, Customer_ID, Movie, Theatre, Tickets, Amount
+Example:
+B101,C101,MovieA,Theatre1,2,400
+B102,C102,MovieB,Theatre2,4,800
+B103,C103,MovieA,Theatre1,3,600
+Tasks
+ Identify bookings containing more than two tickets.
+ Detect duplicate Booking IDs using a Bloom Filter.
+ Create a DataFrame containing unique bookings.
+ Find the total number of tickets sold for each movie.
+ Calculate total revenue for each movie.
+ Use Spark SQL to find the highest-revenue movie.
+
+Problem #3: RDF:
+Museum Management
+A museum wants to develop a semantic knowledge base containing information about artworks,
+artists, galleries and art periods.
+Every artist is a person. Artists create artworks. Artworks are displayed in galleries and belong to
+historical art periods.
+
+Consider the following information:
+ Leonardo and VanGogh are artists.
+ MonaLisa was created by Leonardo.
+ StarryNight was created by VanGogh.
+ MonaLisa is displayed in Gallery1.
+ StarryNight is displayed in Gallery2.
+ MonaLisa belongs to the Renaissance period.
+ StarryNight belongs to the PostImpressionism period.
+ Gallery1 and Gallery2 are museum galleries.
+ Renaissance and PostImpressionism are art periods.
+Questions
+1. Identify suitable classes.
+2. Establish suitable subclass relationships.
+3. Derive appropriate properties from the given information.
+4. Specify the domain and range of each property.
+5. Identify the individuals.
+6. Represent the scenario using RDF/RDFS triples.
+7. Add suitable rdfs:label and rdfs:comment statements.
