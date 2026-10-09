@@ -1,10 +1,4 @@
 #!/usr/bin/env python3
-"""
-Problem #1 - Hadoop Streaming Reducer: Most Visited Website
-Receives sorted input (Website \t User_ID) from Mapper / Shuffle stage.
-Deduplicates User_IDs per Website using a set, calculates unique user counts,
-and emits both per-website unique counts and the globally most visited website.
-"""
 import sys
 
 def main():
@@ -38,7 +32,6 @@ def main():
             current_website = website
             unique_users = {user_id}
 
-    # Process final website
     if current_website is not None:
         count = len(unique_users)
         print(f"{current_website}\t{count}")
@@ -46,7 +39,6 @@ def main():
             max_user_count = count
             max_website = current_website
 
-    # Output the maximum visited website
     if max_website is not None:
         print("=" * 45)
         print(f"MAXIMUM_VISITED_WEBSITE:\t{max_website}\t(Unique Users: {max_user_count})")

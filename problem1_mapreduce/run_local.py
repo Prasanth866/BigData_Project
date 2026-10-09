@@ -1,8 +1,4 @@
 #!/usr/bin/env python3
-"""
-Standalone MapReduce Simulation in pure Python.
-Demonstrates the exact Map, Shuffle & Sort, and Reduce phases.
-"""
 import sys
 from collections import defaultdict
 from pathlib import Path
@@ -53,15 +49,12 @@ def main():
     with open(dataset_path, "r", encoding="utf-8") as f:
         lines = f.readlines()
 
-    # Phase 1: Map
     mapped = mapper(lines)
     print(f"-> Map Phase emitted {len(mapped)} key-value records.")
 
-    # Phase 2: Shuffle & Sort
     grouped = shuffle_and_sort(mapped)
     print(f"-> Shuffle & Sort Phase partitioned into {len(grouped)} distinct website keys.")
 
-    # Phase 3: Reduce
     counts, max_site, max_count = reducer(grouped)
     print("\n--- Website Visit Statistics (Unique Users) ---")
     for site, count in sorted(counts.items()):

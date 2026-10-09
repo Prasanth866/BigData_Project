@@ -20,17 +20,8 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-/**
- * Enterprise Two-Stage MapReduce Pipeline for Large-Scale Data:
- * 
- * Job 1: Distinct User Aggregation per Website
- * Job 2: Global Maximum Extraction
- */
 public class TwoStageMostVisitedWebsite extends Configured implements Tool {
 
-    // ==========================================
-    // STAGE 1: Calculate Unique Users per Website
-    // ==========================================
     public static class Stage1Mapper extends Mapper<LongWritable, Text, Text, Text> {
         private Text websiteKey = new Text();
         private Text userIdVal = new Text();
@@ -71,9 +62,6 @@ public class TwoStageMostVisitedWebsite extends Configured implements Tool {
         }
     }
 
-    // ==========================================
-    // STAGE 2: Global Max Identification
-    // ==========================================
     public static class Stage2Mapper extends Mapper<LongWritable, Text, Text, Text> {
         private static final Text DUMMY_KEY = new Text("GLOBAL_MAX");
 
@@ -139,7 +127,6 @@ public class TwoStageMostVisitedWebsite extends Configured implements Tool {
             fs.delete(finalOutputPath, true);
         }
 
-        // Job 1
         Job job1 = Job.getInstance(conf, "Job 1: Unique User Count Per Website");
         job1.setJarByClass(TwoStageMostVisitedWebsite.class);
         job1.setMapperClass(Stage1Mapper.class);
@@ -153,7 +140,6 @@ public class TwoStageMostVisitedWebsite extends Configured implements Tool {
             return 1;
         }
 
-        // Job 2
         Job job2 = Job.getInstance(conf, "Job 2: Global Maximum Website Finder");
         job2.setJarByClass(TwoStageMostVisitedWebsite.class);
         job2.setMapperClass(Stage2Mapper.class);

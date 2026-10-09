@@ -20,19 +20,8 @@ import org.apache.hadoop.util.GenericOptionsParser;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-/**
- * Problem #1: Most Visited Website
- * 
- * Given Website and User ID information, identify the website visited
- * by the maximum number of unique users using a MapReduce Program.
- */
 public class MostVisitedWebsite extends Configured implements Tool {
 
-    /**
-     * Mapper Class:
-     * Reads lines of web traffic logs, parses (Website, User_ID),
-     * and emits: Key = Website, Value = User_ID
-     */
     public static class WebsiteTrafficMapper
             extends Mapper<LongWritable, Text, Text, Text> {
 
@@ -70,13 +59,6 @@ public class MostVisitedWebsite extends Configured implements Tool {
         }
     }
 
-    /**
-     * Reducer Class:
-     * Receives Website as key and an Iterable of User IDs.
-     * Uses a Set to deduplicate users visiting the website to compute
-     * the count of distinct users.
-     * In cleanup(), it outputs the website with the maximum unique visits.
-     */
     public static class MostVisitedReducer
             extends Reducer<Text, Text, Text, IntWritable> {
 
@@ -95,10 +77,8 @@ public class MostVisitedWebsite extends Configured implements Tool {
 
             int count = uniqueUsers.size();
             resultCount.set(count);
-            // Emit the distinct count for this website
             context.write(key, resultCount);
 
-            // Track global maximum across all websites
             if (count > maxUserCount) {
                 maxUserCount = count;
                 maxWebsite.set(key.toString());
