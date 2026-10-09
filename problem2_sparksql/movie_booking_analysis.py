@@ -13,50 +13,15 @@ Tasks:
 
 import os
 import sys
-import math
-import hashlib
 from pathlib import Path
 
-# Ensure worker processes use the current Python interpreter
 os.environ["PYSPARK_PYTHON"] = sys.executable
 os.environ["PYSPARK_DRIVER_PYTHON"] = sys.executable
 
+from pybloom_live import BloomFilter
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import col, sum as spark_sum, count, desc
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType, DoubleType
-
-
-class CustomBloomFilter:
-    """
-    In-memory Bloom Filter implementation to demonstrate the exact
-    probabilistic data structure mechanics alongside Spark's native BloomFilter.
-    
-    Mathematical Specifications:
-      - Optimal bit array size: m = - (n * ln(p)) / (ln(2)^2)
-      - Optimal hash functions: k = (m / n) * ln(2)
-      - Double hashing scheme: g_i(x) = (h1(x) + i * h2(x)) mod m
-    """
-    def __init__(self, expected_items: int = 1000, false_positive_rate: float = 0.01):
-        self.n = max(expected_items, 1)
-        self.p = false_positive_rate
-        # Calculate optimal m and k
-        self.m = int(- (self.n * math.log(self.p)) / (math.log(2) ** 2))
-        self.k = max(1, int((self.m / self.n) * math.log(2)))
-        self.bit_array = [0] * self.m
-
-    def _hashes(self, item: str):
-        # Generate k independent hash values using double hashing (Kirsch-Mitzenmacher technique)
-        h1 = int(hashlib.md5(item.encode('utf-8')).hexdigest(), 16)
-        h2 = int(hashlib.sha256(item.encode('utf-8')).hexdigest(), 16)
-        for i in range(self.k):
-            yield (h1 + i * h2) % self.m
-
-    def add(self, item: str):
-        for bit_index in self._hashes(item):
-            self.bit_array[bit_index] = 1
-
-    def might_contain(self, item: str) -> bool:
-        return all(self.bit_array[bit_index] == 1 for bit_index in self._hashes(item))
 
 
 def main():
@@ -71,7 +36,6 @@ def main():
     print("         SPARK SQL: MOVIE TICKET BOOKING SYSTEM ANALYSIS")
     print("=" * 80)
 
-    # Initialize SparkSession
     spark = SparkSession.builder \
         .appName("MovieTicketBookingAnalysis") \
         .master("local[*]") \
@@ -79,10 +43,8 @@ def main():
         .config("spark.sql.shuffle.partitions", "2") \
         .getOrCreate()
 
-    # Set log level to WARN
     spark.sparkContext.setLogLevel("WARN")
 
-    # Define schema explicitly
     schema = StructType([
         StructField("Booking_ID", StringType(), False),
         StructField("Customer_ID", StringType(), False),
@@ -101,9 +63,6 @@ def main():
     print(f"\n--- Ingested Raw Bookings (Total Records: {raw_df.count()}) ---")
     raw_df.show(truncate=False)
 
-    # =========================================================================
-    # TASK 1: Identify bookings containing more than two tickets
-    # =========================================================================
     print("=" * 80)
     print("TASK 1: Bookings Containing More Than Two Tickets (Tickets > 2)")
     print("=" * 80)
@@ -111,14 +70,10 @@ def main():
     print(f"Found {df_more_than_2.count()} bookings with Tickets > 2:")
     df_more_than_2.show(truncate=False)
 
-    # =========================================================================
-    # TASK 2: Detect duplicate Booking IDs using a Bloom Filter
-    # =========================================================================
     print("=" * 80)
     print("TASK 2: Detect Duplicate Booking IDs Using a Bloom Filter")
     print("=" * 80)
-    
-    # Method 2.A: Apache Spark native Sketch BloomFilter (org.apache.spark.util.sketch.BloomFilter)
+
     spark_bf = raw_df._jdf.stat().bloomFilter("Booking_ID", 1000, 0.01)
     print(f"-> Spark Native Bloom Filter constructed:")
     print(f"   - Class: {spark_bf.getClass().getName()}")
@@ -127,9 +82,13 @@ def main():
     print(f"   - Membership check 'B101': {spark_bf.mightContain('B101')}")
     print(f"   - Membership check 'NONEXISTENT_KEY': {spark_bf.mightContain('NONEXISTENT_KEY')}")
 
-    # Method 2.B: Duplicate Detection Stream using Bloom Filter
-    # As bookings stream in, query Bloom Filter: if might_contain is true, it is flagged as duplicate!
-    bloom_filter = CustomBloomFilter(expected_items=1000, false_positive_rate=0.01)
+    bloom_filter = BloomFilter(capacity=1000, error_rate=0.01)
+    print(f"\n-> pybloom_live Bloom Filter initialized:")
+    print(f"   - Class: {type(bloom_filter).__module__}.{type(bloom_filter).__name__}")
+    print(f"   - Capacity (n): {bloom_filter.capacity}, Error Rate (p): {bloom_filter.error_rate}")
+    print(f"   - Bit Array Size (m): {bloom_filter.num_bits} bits")
+    print(f"   - Number of Hash Functions / Slices (k): {bloom_filter.num_slices}")
+
     rows = raw_df.collect()
 
     flagged_duplicates = []
@@ -138,8 +97,7 @@ def main():
     print(f"\n-> Streaming records through Bloom Filter to intercept duplicates:")
     for row in rows:
         b_id = row["Booking_ID"]
-        if bloom_filter.might_contain(b_id):
-            # Bloom filter flagged this key as already observed
+        if b_id in bloom_filter:
             flagged_duplicates.append(row)
         else:
             bloom_filter.add(b_id)
@@ -148,6 +106,7 @@ def main():
     print(f"   - Total rows evaluated:   {len(rows)}")
     print(f"   - Unique Booking IDs:     {len(seen_ids)}")
     print(f"   - Flagged Duplicate Rows: {len(flagged_duplicates)}")
+    print(f"   - Filter element count:   {len(bloom_filter)}")
 
     if flagged_duplicates:
         print("\nDetected Duplicate Bookings (Intercepted by Bloom Filter):")
@@ -157,9 +116,6 @@ def main():
             print(f"{dup['Booking_ID']:<12} {dup['Customer_ID']:<12} {dup['Movie']:<10} {dup['Theatre']:<10} {dup['Tickets']:<8} ${dup['Amount']:<8.2f}")
     print()
 
-    # =========================================================================
-    # TASK 3: Create a DataFrame containing unique bookings
-    # =========================================================================
     print("=" * 80)
     print("TASK 3: Create a DataFrame Containing Unique Bookings")
     print("=" * 80)
@@ -167,12 +123,8 @@ def main():
     print(f"Unique Bookings Count: {unique_df.count()} (Reduced from {raw_df.count()} raw records)")
     unique_df.sort("Booking_ID").show(truncate=False)
 
-    # Register temporary SQL view
     unique_df.createOrReplaceTempView("unique_bookings")
 
-    # =========================================================================
-    # TASK 4: Find the total number of tickets sold for each movie
-    # =========================================================================
     print("=" * 80)
     print("TASK 4: Total Number of Tickets Sold For Each Movie")
     print("=" * 80)
@@ -191,9 +143,6 @@ def main():
         ORDER BY Total_Tickets_Sold DESC
     """).show(truncate=False)
 
-    # =========================================================================
-    # TASK 5: Calculate total revenue for each movie
-    # =========================================================================
     print("=" * 80)
     print("TASK 5: Calculate Total Revenue For Each Movie")
     print("=" * 80)
@@ -220,9 +169,6 @@ def main():
         ORDER BY Total_Revenue DESC
     """).show(truncate=False)
 
-    # =========================================================================
-    # TASK 6: Use Spark SQL to find the highest-revenue movie
-    # =========================================================================
     print("=" * 80)
     print("TASK 6: Use Spark SQL To Find The Highest-Revenue Movie")
     print("=" * 80)

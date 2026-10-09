@@ -27,7 +27,7 @@ A Bloom Filter is a space-efficient probabilistic data structure that tests set 
 - Optimal number of hash functions:
   $$k = \frac{m}{n} \ln(2)$$
 
-In distributed engines like Apache Spark, Bloom Filters (`df.stat.bloomFilter` / `org.apache.spark.util.sketch.BloomFilter`) allow early filtering of non-matching records and fast duplicate interception before executing heavy shuffle joins and sorting across cluster nodes.
+In distributed engines like Apache Spark, Bloom Filters (`df.stat.bloomFilter` / `org.apache.spark.util.sketch.BloomFilter`) allow early filtering of non-matching records and fast duplicate interception before executing heavy shuffle joins and sorting across cluster nodes. In addition, Python streaming ingestion leverages the high-performance [`pybloom_live`](https://pypi.org/project/pybloom-live/) library (`pybloom_live.BloomFilter`).
 
 ---
 
@@ -46,7 +46,18 @@ problem2_sparksql/
 
 ## Execution Guide
 
-Run the pipeline using the configured virtual environment:
+### Dependencies Setup
+
+Install dependencies via `uv` or `pip`:
+```bash
+uv pip install -r ../requirements.txt
+# or
+pip install -r ../requirements.txt
+```
+
+### Running the Pipeline
+
+Run the pipeline using the configured virtual environment wrapper:
 ```bash
 ./run.sh
 ```

@@ -14,6 +14,18 @@ This repository provides comprehensive, production-grade solutions for all three
 
 ---
 
+## Setup & Dependencies
+
+Install the required Python dependencies (`pyspark`, `pybloom-live`, `rdflib`) using `uv` (recommended) or `pip`:
+
+```bash
+uv pip install -r requirements.txt
+# or
+pip install -r requirements.txt
+```
+
+---
+
 ## One-Click Master Execution
 
 To build, execute, and verify all three problem pipelines sequentially:
@@ -39,7 +51,7 @@ To build, execute, and verify all three problem pipelines sequentially:
 - **Implementation**: `movie_booking_analysis.py` (PySpark + Spark SQL).
 - **Tasks Solved**:
   1. Identified bookings with `Tickets > 2`.
-  2. Implemented Bloom Filter duplicate detection (demonstrating both Apache Spark's native `BloomFilterImplV2` and custom double-hashed Bloom Filter mechanics).
+  2. Implemented Bloom Filter duplicate detection (demonstrating both Apache Spark's native `BloomFilterImplV2` and the `pybloom_live` library).
   3. Created deduplicated DataFrame containing unique bookings.
   4. Calculated total tickets sold per movie (`groupBy` + SQL).
   5. Computed total revenue per movie.
